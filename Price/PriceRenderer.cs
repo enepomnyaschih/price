@@ -9,12 +9,12 @@ namespace Price
         private class Header
         {
             public string name;
-            public string style;
+            public string cls;
 
-            public Header(string name, string style)
+            public Header(string name, string cls)
             {
-                this.name  = name;
-                this.style = style;
+                this.name = name;
+                this.cls  = cls;
             }
         }
 
@@ -113,6 +113,7 @@ namespace Price
                     {
                         row.cells[1].text = RenderName(product.groupName);
                         row.cells[1].rowspan = groupCapacity;
+                        row.cells[1].cls = "group";
                         group = product.groupName;
                     }
                 }
@@ -128,9 +129,9 @@ namespace Price
                 RenderCollection(subCollection, level + 1);
         }
 
-        private void AddHeader(string name, string style)
+        private void AddHeader(string name, string cls)
         {
-            headers.Add(new Header(name, style));
+            headers.Add(new Header(name, cls));
         }
 
         private void FlushHeaders()
@@ -143,7 +144,7 @@ namespace Price
                 Table.Row row = AddRow();
 
                 row.cells[0].text = header.name;
-                row.cells[0].style += header.style;
+                row.cells[0].cls  = header.cls;
                 row.cells[0].colspan = 6;
             }
 
@@ -156,7 +157,7 @@ namespace Price
             for (int i = 0; i < 6; ++i)
             {
                 Table.Cell cell = new Table.Cell();
-                cell.style = "border: 1px solid;";
+                cell.cls = "simple";
                 result.cells.Add(cell);
             }
 
@@ -192,11 +193,11 @@ namespace Price
                 row.cells[4].rowspan = 2;
                 row.cells[5].rowspan = 2;
                 row.cells[1].colspan = 2;
-                row.cells[0].style += "text-align: center;";
-                row.cells[1].style += "text-align: center;";
-                row.cells[3].style += "text-align: center;";
-                row.cells[4].style += "text-align: center;";
-                row.cells[5].style += "text-align: center;";
+                row.cells[0].cls = "column";
+                row.cells[1].cls = "column";
+                row.cells[3].cls = "column";
+                row.cells[4].cls = "column";
+                row.cells[5].cls = "column";
                 AddRow();
             }
         }

@@ -1,9 +1,49 @@
 table
 {
     table-layout:fixed;
+    font-family:Tahoma;
+    font-size:8px;
 }
 
 tr
 {
-    height:20px;
+    height:11px;
+}
+
+td.simple
+{
+    border:1px solid;
+}
+
+td.group
+{
+    border:1px solid;
+    font-weight:bold;
+}
+
+td.column
+{
+    border:1px solid;
+    font-size:7px;
+    text-align:center;
+}
+
+td.type
+{
+    background-color:#DBEEF3;
+    border:1px solid;
+    text-align:center;
+}
+
+td.producer
+{
+    background-color:#FDE9D9;
+    border:1px solid;
+    text-align:center;
+}
+
+td.spec
+{
+    border:1px solid;
+    text-align:center;
 }

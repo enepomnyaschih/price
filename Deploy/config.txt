@@ -495,9 +495,9 @@
 			"Очки"
 		],
 		headers: [
-			"text-align: center; background-color: #DBEEF3;",
-			"text-align: center; background-color: #FDE9D9;",
-			"text-align: center;"
+			"type",
+			"producer",
+			"spec"
 		]
 	}
 }

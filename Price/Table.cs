@@ -11,6 +11,7 @@ namespace Price
         {
             public string   text;
             public string   style;
+            public string   cls;
             public int      rowspan;
             public int      colspan;
         }
@@ -54,6 +55,9 @@ namespace Price
 
                     if (cell.style != null)
                         writer.Write(" style='" + cell.style + "'");
+
+                    if (cell.cls != null)
+                        writer.Write(" class='" + cell.cls + "'");
 
                     writer.Write(">");
                     writer.Write(cell.text);
