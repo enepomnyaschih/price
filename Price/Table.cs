@@ -37,13 +37,14 @@ namespace Price
 
                 for (int j = 0; j < row.cells.Count; ++j)
                 {
-                    while (columnCapacity.Count <= j)
+                    Cell cell = row.cells[j];
+                    int colspan = (cell.colspan == 0) ? 1 : cell.colspan;
+
+                    while (columnCapacity.Count < j + colspan)
                         columnCapacity.Add(0);
 
                     if (columnCapacity[j] > i)
                         continue;
-
-                    Cell cell = row.cells[j];
 
                     writer.Write("<td");
 
@@ -63,7 +64,8 @@ namespace Price
                     writer.Write(cell.text);
                     writer.WriteLine("</td>");
 
-                    columnCapacity[j] = i + ((cell.rowspan == 0) ? 1 : cell.rowspan);
+                    for (int k = 0; k < colspan; ++k)
+                        columnCapacity[j + k] = i + ((cell.rowspan == 0) ? 1 : cell.rowspan);
 
                     if (cell.colspan != 0)
                         j += cell.colspan - 1;

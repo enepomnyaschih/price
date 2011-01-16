@@ -121,6 +121,7 @@ namespace Price
                 else
                 {
                     row.cells[1].text = RenderName(product.name);
+                    row.cells[1].cls = "simple-long";
                     row.cells[1].colspan = 2;
                     group = null;
                 }
@@ -158,7 +159,7 @@ namespace Price
             for (int i = 0; i < 6; ++i)
             {
                 Table.Cell cell = new Table.Cell();
-                cell.cls = "simple";
+                cell.cls = "simple-" + i.ToString();
                 result.cells.Add(cell);
             }
 
@@ -231,15 +232,20 @@ namespace Price
                 int J = j * 4;
 
                 AddTables(I + 0);
-                AddSpacing();
+                AddSpacing(4);
                 AddTables(J + 1);
 
                 if (i != j)
                 {
+                    AddSpacing(2);
+
                     AddTables(J + 0);
-                    AddSpacing();
+                    AddSpacing(4);
                     AddTables(I + 1);
                 }
+
+                if (i != pageCount - 1)
+                    AddSpacing(2);
             }
         }
 
@@ -250,9 +256,15 @@ namespace Price
             for (int i = 0; i < config.lines; ++i)
             {
                 Table.Row row = new Table.Row();
+
                 AddTableRow(row, a, i);
-                row.cells.Add(new Table.Cell());
+
+                Table.Cell spacer = new Table.Cell();
+                spacer.cls = "spacer";
+                row.cells.Add(spacer);
+
                 AddTableRow(row, b, i);
+
                 result.rows.Add(row);
             }
         }
@@ -283,9 +295,9 @@ namespace Price
                 row.cells.Add(new Table.Cell());
         }
 
-        private void AddSpacing()
+        private void AddSpacing(int n)
         {
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < n; ++i)
                 result.rows.Add(new Table.Row());
         }
     }
