@@ -55,6 +55,9 @@ namespace Price
             if ((null != collection.name) && (level != -1))
                 AddHeader(collection.name, config.headers[level]);
 
+            if (collection.products.Count != 0)
+                FlushHeaders();
+
             for (int productIndex = 0; productIndex < collection.products.Count; ++productIndex)
             {
                 Price.Product product = collection.products[productIndex];
@@ -92,8 +95,6 @@ namespace Price
 
                 int opt  = (int)((product.cost * config.opt ) / 100 + 0.5);
                 int rozn = (int)((opt          * config.rozn) / 100 + 0.5);
-
-                FlushHeaders();
 
                 Table.Row row = AddRow();
                 row.cells[0].text = Convert.ToString(RenderCode(product.code));
