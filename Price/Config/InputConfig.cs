@@ -7,6 +7,7 @@ namespace Price
     public class InputConfig
     {
         public string file;
+        public string template;
         public int start;
         public string[] types;
         public string[] producers;
