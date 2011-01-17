@@ -14,6 +14,5 @@ namespace Price
         }
 
         public GroupConfig[] groups;
-        public string[] news;
     }
 }

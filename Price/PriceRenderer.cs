@@ -18,6 +18,28 @@ namespace Price
             }
         }
 
+        private class Change
+        {
+            public int code;
+
+            public bool isCode;
+            public bool isName;
+            public bool isCost;
+            public bool isPv;
+
+            public Change(string source)
+            {
+                char[] sep = { '.' };
+                string[] s = source.Split(sep);
+
+                code = Convert.ToInt32(s[0]);
+                isCode = s[1].Contains("d");
+                isName = s[1].Contains("n");
+                isCost = s[1].Contains("c");
+                isPv   = s[1].Contains("p");
+            }
+        }
+
         private Price price;
         private OutputConfig config;
         private List<Table> tables = new List<Table>();
@@ -25,6 +47,7 @@ namespace Price
         private int tableIndex = -1;
         private int rowIndex;
         private List<Header> headers = new List<Header>();
+        private Dictionary<int, Change> changes;
 
         private string group = null;
 
@@ -40,6 +63,8 @@ namespace Price
             this.price = price;
             this.config = config;
 
+            BuildChanges();
+
             AddColumns();
             RenderCollection(price.root, -1);
             MergeTables();
@@ -49,6 +74,17 @@ namespace Price
 
 
 
+
+        private void BuildChanges()
+        {
+            changes = new Dictionary<int, Change>();
+
+            for (int i = 0; i < config.changes.Length; ++i)
+            {
+                Change change = new Change(config.changes[i]);
+                changes.Add(change.code, change);
+            }
+        }
 
         private void RenderCollection(Price.Collection collection, int level)
         {
@@ -96,11 +132,26 @@ namespace Price
                 int opt  = (int)((product.cost * config.opt ) / 100 + 0.5);
                 int rozn = (int)((opt          * config.rozn) / 100 + 0.5);
 
+                Change change = null;
+                changes.TryGetValue(product.code, out change);
+
                 Table.Row row = AddRow();
                 row.cells[0].text = Convert.ToString(RenderCode(product.code));
-                row.cells[3].text =  opt.ToString();
+                row.cells[3].text = opt.ToString();
                 row.cells[4].text = rozn.ToString();
                 row.cells[5].text = product.pv.ToString();
+
+                if (change != null && change.isCode)
+                    row.cells[0].cls += " changed";
+
+                if (change != null && change.isCost)
+                {
+                    row.cells[3].cls += " changed";
+                    row.cells[4].cls += " changed";
+                }
+
+                if (change != null && change.isPv)
+                    row.cells[5].cls += " changed";
 
                 if (divideName)
                 {
@@ -110,11 +161,30 @@ namespace Price
                     else
                         row.cells[2].text = RenderName(product.shortName);
 
+                    if (change != null && change.isName)
+                        row.cells[2].cls += " changed";
+
                     if (0 != groupCapacity)
                     {
                         row.cells[1].text = RenderName(product.groupName);
                         row.cells[1].rowspan = groupCapacity;
                         row.cells[1].cls = "group";
+
+                        bool isChange = true;
+                        for (int i = 0; i < groupCapacity; ++i)
+                        {
+                            Change subChange = null;
+                            changes.TryGetValue(collection.products[productIndex + i].code, out subChange);
+                            if (subChange == null || !subChange.isName)
+                            {
+                                isChange = false;
+                                break;
+                            }
+                        }
+
+                        if (isChange)
+                            row.cells[1].cls += " changed";
+
                         group = product.groupName;
                     }
                 }
@@ -123,6 +193,10 @@ namespace Price
                     row.cells[1].text = RenderName(product.name);
                     row.cells[1].cls = "simple-long";
                     row.cells[1].colspan = 2;
+
+                    if (change != null && change.isName)
+                        row.cells[1].cls += " changed";
+
                     group = null;
                 }
             }

@@ -8,7 +8,7 @@ table
 
 tr
 {
-    height:14px;
+    height:15px;
 }
 
 td
@@ -99,4 +99,10 @@ td.spec
 {
     border:1px solid;
     text-align:center;
+}
+
+td.changed
+{
+    background-color:#CCCCCC;
+    font-weight:bold;
 }

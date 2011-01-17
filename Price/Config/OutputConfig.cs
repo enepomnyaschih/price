@@ -12,5 +12,6 @@ namespace Price
         public string basename;
         public string[] columns;
         public string[] headers;
+        public string[] changes;
     }
 }

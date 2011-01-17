@@ -2,3 +2,9 @@ Price.suo
 Price/Price.csproj.user
 Price/bin
 Price/obj
+Deploy/config.txt
+Deploy/input.csv
+Deploy/output.html
+Backup
+UpgradeLog.XML
+_UpgradeReport_Files
