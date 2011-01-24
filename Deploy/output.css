@@ -2,7 +2,7 @@ table
 {
     table-layout:fixed;
     font-family:Tahoma;
-    font-size:8px;
+    font-size:9px;
     margin-left:3px;
 }
 
@@ -74,7 +74,7 @@ td.group
 td.column
 {
     border:1px solid;
-    font-size:7px;
+    font-size:8px;
     text-align:center;
 }
 
