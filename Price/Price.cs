@@ -131,8 +131,12 @@ namespace Price
                 }
                 else
                 {
+                    int code = Convert.ToInt32(content[lineIndex][0]);
+                    if (IndexOf(config.ignores, code) != -1)
+                        continue;
+
                     Product product = new Product();
-                    product.code   = Convert.ToInt32(content[lineIndex][0]);
+                    product.code   = code;
                     product.name   = name;
                     product.block  = Convert.ToInt32(content[lineIndex][2]);
                     product.cost   = Convert.ToInt32(content[lineIndex][3]);
@@ -182,6 +186,14 @@ namespace Price
 
 
         private static int IndexOf(string[] array, string value)
+        {
+            for (int i = 0; i < array.Length; ++i)
+                if (array[i] == value)
+                    return i;
+            return -1;
+        }
+
+        private static int IndexOf(int[] array, int value)
         {
             for (int i = 0; i < array.Length; ++i)
                 if (array[i] == value)

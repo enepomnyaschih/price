@@ -13,5 +13,6 @@ namespace Price
         public string[] producers;
         public string[] specs;
         public string[] ignoreGroups;
+        public int[] ignores;
     }
 }
