@@ -297,7 +297,11 @@ namespace Price
 
         private void MergeTables()
         {
-            int pageCount = (tables.Count + 3) / 8 + 1;
+            bool extraPage = (tables.Count + 3) % 8 < 2;
+            int pageCount = (tables.Count + 3) / 8;
+            if (!extraPage)
+                ++pageCount;
+
             for (int i = 0; i < pageCount; ++i)
             {
                 int j = 2 * pageCount - i - 2;
@@ -305,27 +309,33 @@ namespace Price
                 int I = i * 4;
                 int J = j * 4;
 
-                AddTables(I + 0);
+                AddTables(I + 0, 2);
                 AddSpacing(4);
-                AddTables(J + 1);
+                AddTables(J + 1, 2);
 
                 if (i != j)
                 {
                     AddSpacing(2);
 
-                    AddTables(J + 0);
+                    AddTables(J + 0, 2);
                     AddSpacing(4);
-                    AddTables(I + 1);
+                    AddTables(I + 1, 2);
                 }
 
                 if (i != pageCount - 1)
                     AddSpacing(2);
             }
+
+            if (extraPage)
+            {
+                AddSpacing(2);
+                AddTables(pageCount * 8 - 4, 1);
+            }
         }
 
-        private void AddTables(int a)
+        private void AddTables(int a, int diff)
         {
-            int b = a + 2;
+            int b = a + diff;
 
             for (int i = 0; i < config.lines; ++i)
             {
