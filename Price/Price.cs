@@ -46,6 +46,18 @@ namespace Price
             }
         }
 
+        private class MergeInfo
+        {
+            public Product product;
+            public List<int> codes;
+
+            public MergeInfo(Product product)
+            {
+                this.product = product;
+                this.codes = new List<int>();
+            }
+        }
+
         public Collection root;
 
         /**
@@ -212,6 +224,9 @@ namespace Price
 
             products.Sort(CompareProductsByCode);
 
+            Dictionary<Product, MergeInfo> mergesByProduct = new Dictionary<Product, MergeInfo>();
+            Dictionary<string, MergeInfo> mergesByIndex = new Dictionary<string, MergeInfo>();
+
             // Определяем группы товаров
             for (int productIndex = 0; productIndex < products.Count; ++productIndex)
             {
@@ -225,7 +240,26 @@ namespace Price
 
                     if (null != values)
                     {
-                        if (null != groupConfig.groupExpression)
+                        if (null != groupConfig.merge)
+                        {
+                            if (null != groupConfig.textExpression)
+                                product.name = groupConfig.textExpression.Format(values).Trim();
+
+                            string mid = product.name + ":" + product.cost.ToString();
+                            if (!mergesByIndex.ContainsKey(mid))
+                            {
+                                MergeInfo mergeInfo = new MergeInfo(product);
+                                mergesByIndex.Add(mid, mergeInfo);
+                                mergesByProduct.Add(product, mergeInfo);
+                            }
+                            else
+                            {
+                                mergesByProduct.Add(product, null);
+                            }
+
+                            mergesByIndex[mid].codes.Add(product.code);
+                        }
+                        else if (null != groupConfig.groupExpression)
                         {
                             product.groupName = groupConfig.groupExpression.Format(values).Trim();
                             product.shortName = groupConfig.textExpression.Format(values).Trim();
@@ -247,8 +281,47 @@ namespace Price
                 if (null == product)
                     continue;
 
-                if (null != product.shortName &&
-                    null != product.groupName)
+                if (mergesByProduct.ContainsKey(product))
+                {
+                    MergeInfo mergeInfo = mergesByProduct[product];
+                    if (null == mergeInfo)
+                        continue;
+
+                    product.code = 0;
+
+                    StringBuilder name = new StringBuilder();
+                    name.Append(product.name);
+                    name.Append(" (");
+
+                    mergeInfo.codes.Sort();
+
+                    int codeStartIndex = 0;
+                    for (int codeIndex = 1; codeIndex <= mergeInfo.codes.Count; ++codeIndex)
+                    {
+                        if (codeIndex < mergeInfo.codes.Count &&
+                            mergeInfo.codes[codeIndex] == mergeInfo.codes[codeStartIndex] + codeIndex - codeStartIndex)
+                            continue;
+
+                        if (codeStartIndex != 0)
+                            name.Append(", ");
+
+                        name.Append(mergeInfo.codes[codeStartIndex]);
+                        if (codeIndex - codeStartIndex > 1)
+                        {
+                            name.Append("-");
+                            name.Append(mergeInfo.codes[codeIndex - 1]);
+                        }
+
+                        codeStartIndex = codeIndex;
+                    }
+
+                    name.Append(")");
+
+                    product.name = name.ToString();
+
+                    result.products.Add(product);
+                }
+                else if (null != product.shortName && null != product.groupName)
                 {
                     // Создаем группу товаров
                     for (int i = productIndex; i < products.Count; ++i)

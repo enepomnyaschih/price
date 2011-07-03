@@ -285,6 +285,9 @@ namespace Price
 
         private string RenderCode(int code)
         {
+            if (code == 0)
+                return "";
+
             string result = "";
             for (int i = 0; i < 4; ++i)
             {

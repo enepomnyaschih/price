@@ -7,6 +7,7 @@ namespace Price
             public string input;
             public string group;
             public string text;
+            public string merge;
 
             public Expression inputExpression;
             public Expression groupExpression;

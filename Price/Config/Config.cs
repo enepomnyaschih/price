@@ -19,7 +19,9 @@ namespace Price
             foreach (ConvertConfig.GroupConfig group in result.convert.groups)
             {
                 group.inputExpression = new Expression(group.input);
-                group. textExpression = new Expression(group.text );
+
+                if (null != group.text)
+                    group.textExpression = new Expression(group.text);
 
                 if (null != group.group)
                     group.groupExpression = new Expression(group.group);
