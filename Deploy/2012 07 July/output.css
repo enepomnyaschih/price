@@ -1,0 +1,108 @@
+table
+{
+    table-layout:fixed;
+    font-family:Tahoma;
+    font-size:9px;
+    margin-left:3px;
+}
+
+tr
+{
+    height:14.5px;
+}
+
+td
+{
+    overflow:hidden;
+    white-space:normal;
+}
+
+td.simple-0,
+td.simple-1,
+td.simple-2,
+td.simple-3,
+td.simple-4,
+td.simple-5,
+td.simple-long
+{
+    border:1px solid;
+}
+
+td.simple-0,
+td.simple-3,
+td.simple-4,
+td.simple-5
+{
+    text-align:right;
+}
+
+td.simple-0
+{
+    width:25px;
+}
+
+td.simple-1,
+td.simple-2,
+td.group
+{
+    width:135px;
+}
+
+td.simple-3,
+td.simple-4,
+td.simple-5
+{
+    width:26px;
+}
+
+td.simple-long
+{
+    width:270px;
+}
+
+td.spacer
+{
+    width:2px;
+}
+
+td.group
+{
+    border:1px solid;
+    font-weight:bold;
+}
+
+td.column
+{
+    border:1px solid;
+    font-size:8px;
+    text-align:center;
+}
+
+td.type
+{
+    background-color:#DBEEF3;
+    border:1px solid;
+    font-style:italic;
+    font-weight:bold;
+    text-align:center;
+}
+
+td.producer
+{
+    background-color:#FDE9D9;
+    border:1px solid;
+    font-style:italic;
+    text-align:center;
+}
+
+td.spec
+{
+    border:1px solid;
+    text-align:center;
+}
+
+td.changed
+{
+    background-color:#CCCCCC;
+    font-weight:bold;
+}
