@@ -150,9 +150,9 @@ namespace Price
                     Product product = new Product();
                     product.code   = code;
                     product.name   = name;
-                    product.block  = Convert.ToInt32(content[lineIndex][2]);
-                    product.cost   = Convert.ToInt32(content[lineIndex][3]);
-                    product.pv     = Convert.ToInt32(content[lineIndex][4]);
+                    product.block  = Convert.ToInt32(content[lineIndex][4]);
+                    product.cost   = Convert.ToInt32(content[lineIndex][2]);
+                    product.pv     = Convert.ToInt32(content[lineIndex][3]);
 
                     if (null != spec)
                     {
