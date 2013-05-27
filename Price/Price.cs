@@ -80,18 +80,6 @@ namespace Price
             for (int i = 0; i < length; ++i)
             {
                 content[i] = lines[i + config.start].Split(tabSeparator);
-
-                string name = content[i][1];
-                if (name.Length != 0 && name[0] == '"')
-                {
-                    string[] tmp = name.Substring(1, name.Length - 2).Trim().Split(quoteSeparator);
-                    for (int j = 1; j < tmp.Length - 1; ++j)
-                    {
-                        if (tmp[j].Length == 0)
-                            tmp[j] = "\"";
-                    }
-                    content[i][1] = string.Join(string.Empty, tmp);
-                }
             }
 
             // Формируем структуру данных
