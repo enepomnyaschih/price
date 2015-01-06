@@ -135,6 +135,9 @@ namespace Price
                     if (IndexOf(config.ignores, code) != -1)
                         continue;
 
+                    if (string.IsNullOrEmpty(content[lineIndex][3]))
+                        continue;
+
                     Product product = new Product();
                     product.code   = code;
                     product.name   = name;
