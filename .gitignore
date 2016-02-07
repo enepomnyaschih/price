@@ -6,3 +6,7 @@ Backup
 UpgradeLog.XML
 _UpgradeReport_Files
 Deploy/Price.exe
+*.pdb
+Deploy/config (extraItems).txt
+Deploy/config-1.txt
+Deploy/output.html
